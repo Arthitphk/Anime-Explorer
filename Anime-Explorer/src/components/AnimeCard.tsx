@@ -18,7 +18,7 @@ export default function AnimeCard({ anime }: Props) {
       />
 
       <div className="p-4">
-        <h3 className="font-semibold line-clamp-2 min-h-[48px]">
+        <h3 className="font-semibold line-clamp-2 min-h-12">
           {anime.title}
         </h3>
 
