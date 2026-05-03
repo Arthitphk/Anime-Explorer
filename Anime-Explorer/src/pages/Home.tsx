@@ -10,10 +10,10 @@ export default function Home() {
 
 
   if (isLoading) {
-return <p className="text-slate-300">Loading...</p>;
+    return <p className="text-slate-300">Loading...</p>;
   }
 
-if (isError) {
+  if (isError) {
     return <p className="text-slate-300">Error loading anime list.</p>;
   }
   return (
@@ -26,10 +26,11 @@ if (isError) {
       </div>
 
       {isFetching && <p className="text-slate-300 mb-4">Updating...</p>}
-
-      {data?.data.map((anime) => (
-        <AnimeCard key={anime.mal_id} anime={anime}/>
-      ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {data?.data.map((anime) => (
+          <AnimeCard key={anime.mal_id} anime={anime} />
+        ))}
+      </div>
     </div>
   );
 }
