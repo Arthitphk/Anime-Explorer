@@ -1,7 +1,7 @@
 import AnimeCard from "../components/AnimeCard";
-import { useTopAnime } from "../services/useTopAnime";
+import { useTopAnime } from "../hooks/useTopAnime";
 
-
+  
 
 
 export default function Home() {
