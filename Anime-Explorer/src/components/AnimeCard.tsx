@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { Anime } from "../types/anime";
+import { useFavorites } from "../hooks/useFavorites";
 import { 
   Star, 
   Heart, 
@@ -19,19 +20,19 @@ type Props = {
 export default function AnimeCard({ anime }: Props) {
 
   const [isHovered, setIsHovered] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+  const favorite = isFavorite(anime.mal_id);
 
   return (
-    <Link
-      to={`/anime/${anime.mal_id}`}
-      className="block "
-    >
-    
-      <div className="flex items-center justify-center p-6 font-sans ">
-        <div
-          className="relative group w-full max-w-md bg-slate-900 rounded-[2.5rem] overflow-hidden shadow-2xl transition-all duration-500 hover:shadow-purple-500/10 border border-slate-800"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+    <div className="flex items-center justify-center p-6 font-sans ">
+      <div
+        className="relative group w-full max-w-md bg-slate-900 rounded-[2.5rem] overflow-hidden shadow-2xl transition-all duration-500 hover:shadow-purple-500/10 border border-slate-800"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <Link
+          to={`/anime/${anime.mal_id}`}
+          className="block "
         >
           {/* Image Section */}
           <div className="relative h-[420px] overflow-hidden">
@@ -47,20 +48,12 @@ export default function AnimeCard({ anime }: Props) {
             {/* Top Badges */}
             <div className="absolute top-6 left-6 flex items-center gap-2">
               <span className="px-3 py-1.5 bg-purple-600 text-white text-[10px] font-black uppercase tracking-widest rounded-lg shadow-lg shadow-purple-900/50">
-                {anime.type}
+                {anime.type ?? "Unknown"}
               </span>
               <span className="px-3 py-1.5 bg-black/40 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest rounded-lg border border-white/10">
                 HD
               </span>
             </div>
-
-            <button
-              onClick={() => setIsLiked(!isLiked)}
-              className={`absolute top-6 right-6 p-3 rounded-2xl backdrop-blur-xl transition-all duration-300 ${isLiked ? 'bg-rose-500 text-white shadow-rose-500/40' : 'bg-black/20 text-white border border-white/10 hover:bg-black/40'
-                }`}
-            >
-              <Heart size={20} fill={isLiked ? "currentColor" : "none"} />
-            </button>
 
             {/* Title & Rating Overlay */}
             <div className="absolute bottom-6 left-8 right-8">
@@ -90,25 +83,25 @@ export default function AnimeCard({ anime }: Props) {
               <div className="bg-slate-800/50 p-3 rounded-2xl border border-slate-700/50 text-center">
                 <Layers size={16} className="mx-auto mb-1 text-blue-400" />
                 <p className="text-[10px] text-slate-500 font-bold uppercase">Episodes</p>
-                <p className="text-xs text-white font-bold">{anime.episodes}</p>
+                <p className="text-xs text-white font-bold">{anime.episodes ?? "N/A"}</p>
               </div>
               <div className="bg-slate-800/50 p-3 rounded-2xl border border-slate-700/50 text-center">
                 <Clock size={16} className="mx-auto mb-1 text-emerald-400" />
                 <p className="text-[10px] text-slate-500 font-bold uppercase">Status</p>
-                <p className="text-xs text-white font-bold truncate">Finished</p>
+                <p className="text-xs text-white font-bold truncate">{anime.status ?? "Unknown"}</p>
               </div>
             </div>
 
             <p className="text-slate-400 text-sm leading-relaxed mb-8 line-clamp-2">
-              {anime.episodes}
+              {anime.synopsis ?? "No synopsis available."}
             </p>
 
             {/* Action Button */}
-            <button className="w-full group/btn relative flex items-center justify-center gap-3 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25 active:scale-95 overflow-hidden">
+            <div className="w-full group/btn relative flex items-center justify-center gap-3 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25 active:scale-95 overflow-hidden">
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300" />
               <Play size={18} fill="currentColor" className="relative z-10" />
               <span className="relative z-10">Start Watching</span>
-            </button>
+            </div>
           </div>
 
           {/* Sub-footer */}
@@ -119,8 +112,28 @@ export default function AnimeCard({ anime }: Props) {
               <Info size={16} className="text-slate-500 hover:text-purple-400 cursor-pointer transition-colors" />
             </div>
           </div>
-        </div>
+        </Link>
+
+        <button
+          type="button"
+          aria-label={favorite ? "Remove favorite" : "Add favorite"}
+          aria-pressed={favorite}
+          onClick={() => {
+            if (favorite) {
+              removeFavorite(anime.mal_id);
+            } else {
+              addFavorite(anime);
+            }
+          }}
+          className={`absolute top-6 right-6 p-3 rounded-2xl backdrop-blur-xl transition-all duration-300 ${
+            favorite
+              ? 'bg-rose-500 text-white shadow-rose-500/40'
+              : 'bg-black/20 text-white border border-white/10 hover:bg-black/40'
+          }`}
+        >
+          <Heart size={20} fill={favorite ? "currentColor" : "none"} />
+        </button>
       </div>
-    </Link>
+    </div>
   );
 }
