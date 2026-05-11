@@ -26,7 +26,7 @@ export default function Home() {
       </div>
 
       {isFetching && <p className="text-slate-300 mb-4">Updating...</p>}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,20rem),1fr))] gap-4 sm:gap-5 xl:gap-8">
         {data?.data.map((anime) => (
           <AnimeCard key={anime.mal_id} anime={anime} />
         ))}
