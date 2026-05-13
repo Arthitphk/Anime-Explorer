@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import type { Anime } from "../types/anime";
-import { useFavorites } from "../hooks/useFavorites";
+import { useFavorites } from "../context/useFavorites";
 import { 
   Star, 
   Heart, 

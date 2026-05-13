@@ -1,5 +1,5 @@
 import AnimeCard from "../components/AnimeCard";
-import { useFavorites } from "../hooks/useFavorites";
+import { useFavorites } from "../context/useFavorites";
 
 export default function Favorites() {
   const { favorites } = useFavorites();

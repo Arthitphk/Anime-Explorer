@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { useFavorites } from "../hooks/useFavorites";
+import { useFavorites } from "../context/useFavorites";
 
 const links = [
   { name: "Home", path: "/" },
@@ -31,7 +31,7 @@ export default function Sidebar() {
               <span>{link.name}</span>
 
               {isFavorites && favorites.length > 0 && (
-                <span className="rounded-full bg-white px-2 py-0.5 text-xs text-slate-900">
+                <span className="rounded-full bg-linear-to-r from-blue-500 to-purple-500 px-2 py-0.5 text-xs text-white shadow-md">
                   {favorites.length}
                 </span>
               )}

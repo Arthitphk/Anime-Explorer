@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
+import { FavoritesContext } from "./FavoritesContext";
 import type { Anime } from "../types/anime";
-import { FavoritesContext } from "./FavoriteStoreContext";
 
 const STORAGE_KEY = "favorite-anime";
 
