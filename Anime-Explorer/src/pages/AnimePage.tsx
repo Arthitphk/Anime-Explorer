@@ -3,14 +3,14 @@ import AnimeCard from "../components/AnimeCard";
 import { useAnimeSearch } from "../hooks/useAnimeSearch";
 import { useDebounce } from "../hooks/useDebounce";
 import type {
-  AnimeOrderByFilter,
-  AnimeSearchFilters,
-  AnimeSortFilter,
-  AnimeStatusFilter,
-  AnimeTypeFilter,
-} from "../types/animeSearch";
+  AnimeFilters,
+  AnimeOrderBy,
+  AnimeSort,
+  AnimeStatus,
+  AnimeType,
+} from "../types/animeFilters";
 
-const typeOptions: { label: string; value: AnimeTypeFilter }[] = [
+const typeOptions: { label: string; value: AnimeType }[] = [
   { label: "All types", value: "all" },
   { label: "TV", value: "tv" },
   { label: "Movie", value: "movie" },
@@ -20,14 +20,14 @@ const typeOptions: { label: string; value: AnimeTypeFilter }[] = [
   { label: "Music", value: "music" },
 ];
 
-const statusOptions: { label: string; value: AnimeStatusFilter }[] = [
+const statusOptions: { label: string; value: AnimeStatus }[] = [
   { label: "All status", value: "all" },
   { label: "Airing", value: "airing" },
   { label: "Complete", value: "complete" },
   { label: "Upcoming", value: "upcoming" },
 ];
 
-const orderByOptions: { label: string; value: AnimeOrderByFilter }[] = [
+const orderByOptions: { label: string; value: AnimeOrderBy }[] = [
   { label: "Score", value: "score" },
   { label: "Popularity", value: "popularity" },
   { label: "Members", value: "members" },
@@ -35,12 +35,12 @@ const orderByOptions: { label: string; value: AnimeOrderByFilter }[] = [
   { label: "Rank", value: "rank" },
 ];
 
-const sortOptions: { label: string; value: AnimeSortFilter }[] = [
+const sortOptions: { label: string; value: AnimeSort }[] = [
   { label: "Desc", value: "desc" },
   { label: "Asc", value: "asc" },
 ];
 
-const defaultFilters: AnimeSearchFilters = {
+const defaultFilters: AnimeFilters = {
   type: "all",
   status: "all",
   orderBy: "score",
@@ -50,7 +50,7 @@ const defaultFilters: AnimeSearchFilters = {
 export default function AnimePage() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [filters, setFilters] = useState<AnimeSearchFilters>(defaultFilters);
+  const [filters, setFilters] = useState<AnimeFilters>(defaultFilters);
 
   const debounceSearch = useDebounce(search, 500);
 
@@ -58,9 +58,9 @@ export default function AnimePage() {
 
   const hasSearch = debounceSearch.trim().length > 0;
 
-  const updateFilter = <Key extends keyof AnimeSearchFilters>(
+  const updateFilter = <Key extends keyof AnimeFilters>(
     key: Key,
-    value: AnimeSearchFilters[Key],
+    value: AnimeFilters[Key],
   ) => {
     setFilters((prev) => ({
       ...prev,
@@ -93,7 +93,7 @@ export default function AnimePage() {
             <select
               value={filters.type}
               onChange={(e) =>
-                updateFilter("type", e.target.value as AnimeTypeFilter)
+                updateFilter("type", e.target.value as AnimeType)
               }
               className="mt-1 w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
@@ -110,7 +110,7 @@ export default function AnimePage() {
             <select
               value={filters.status}
               onChange={(e) =>
-                updateFilter("status", e.target.value as AnimeStatusFilter)
+                updateFilter("status", e.target.value as AnimeStatus)
               }
               className="mt-1 w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
@@ -127,7 +127,7 @@ export default function AnimePage() {
             <select
               value={filters.orderBy}
               onChange={(e) =>
-                updateFilter("orderBy", e.target.value as AnimeOrderByFilter)
+                updateFilter("orderBy", e.target.value as AnimeOrderBy)
               }
               className="mt-1 w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
@@ -144,7 +144,7 @@ export default function AnimePage() {
             <select
               value={filters.sort}
               onChange={(e) =>
-                updateFilter("sort", e.target.value as AnimeSortFilter)
+                updateFilter("sort", e.target.value as AnimeSort)
               }
               className="mt-1 w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
